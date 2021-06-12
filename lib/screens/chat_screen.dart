@@ -1,4 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:baatchet/widgets/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
@@ -8,31 +9,45 @@ class ChatScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'BaatCheet',
-          style: TextStyle(color: Colors.black),
         ),
+        actions: <Widget>[
+          DropdownButton(
+            icon: Icon(
+              Icons.more_vert,
+              color: Theme.of(context).primaryIconTheme.color,
+            ),
+            items: [
+              DropdownMenuItem(
+                child: Container(
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.exit_to_app),
+                      SizedBox(
+                        width: 8.0,
+                      ),
+                      Text('Logout'),
+                    ],
+                  ),
+                ),
+                value: 'logout',
+              )
+            ],
+            onChanged: (itemIdentifier) {
+              if (itemIdentifier == 'logout') {
+                FirebaseAuth.instance.signOut();
+              }
+            },
+          )
+        ],
         elevation: 0,
-        backgroundColor: Colors.white,
       ),
       body: Container(
-        color: Colors.white,
-        child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (ctx, index) => Container(
-            padding: EdgeInsets.all(8),
-            child: Text('This Works'),
-          ),
+        child: Column(
+          children: <Widget>[
+            Expanded(child: Messages()),
+            NewMessage(),
+          ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          FirebaseFirestore.instance
-              .collection('chats/wB0Md7zNCWbYBNAW7yv3/messages')
-              .snapshots()
-              .listen((data) {
-            print(data.docs[0]['text']);
-          });
-        },
       ),
     );
   }
