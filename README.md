@@ -9,7 +9,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/WarMac4964/BaatCheet">
-    <img src="readme/logo.png" alt="Logo" width="80" height="80">
+    <img src="readme/3.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">BaatCheet</h3>
@@ -48,7 +48,8 @@
 
 ## About The Project
 
-<img src="readme/screenshot.png" alt="Logo" width="200" >
+<img src="readme/home.png" alt="Logo" width="200" >
+<br>
 
 BaatCheet is a cross-platform text messaging app for both Android and IOS written in Flutter/Dart.
 
