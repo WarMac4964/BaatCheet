@@ -100,9 +100,10 @@ See the [open issues](https://github.com/WarMac4964/BaatCheet/issues) for a list
 
 <!-- CONTACT -->
 
-## Contact
+## Contributing
 
 Anurag Tyagi - [@capttyg](https://www.instagram.com/capttyg/) - anurag.tyagi4964@gmail.com
+Yugal Panchal - [@yugal1005](https://www.instagram.com/yugal1005/) - yugalpanchal01@gmail.com
 
 Project Link: [https://github.com/WarMac4964/BaatCheet](https://github.com/WarMac4964/BaatCheet)
 

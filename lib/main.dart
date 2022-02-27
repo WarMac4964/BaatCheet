@@ -32,17 +32,49 @@ class MyApp extends StatelessWidget {
             title: 'BaatChet',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primarySwatch: Colors.pink,
-              backgroundColor: Colors.pink,
+              primarySwatch: Colors.amber,
+              backgroundColor: Colors.amber,
               accentColor: Colors.deepPurple,
               accentColorBrightness: Brightness.dark,
               buttonTheme: ButtonTheme.of(context).copyWith(
-                buttonColor: Colors.pink,
+                buttonColor: Colors.amber,
                 textTheme: ButtonTextTheme.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
               ),
+              textTheme: ThemeData.light().textTheme.copyWith(
+                    button: TextStyle(
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w500,
+                      color: Colors.blue,
+                      fontSize: 15,
+                    ),
+                    headline1: TextStyle(
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 35,
+                      color: Colors.white,
+                    ),
+                    subtitle1: TextStyle(
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                    bodyText2: TextStyle(
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black87,
+                      fontSize: 15,
+                    ),
+                    bodyText1: TextStyle(
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  ),
             ),
             home: StreamBuilder(
               stream: FirebaseAuth.instance.authStateChanges(),
@@ -50,7 +82,7 @@ class MyApp extends StatelessWidget {
                 if (userSnapshot.hasData) {
                   return ChatScreen();
                 } else {
-                  return AuthScreen();
+                  return NewAuthScreen();
                 }
               },
             ),
