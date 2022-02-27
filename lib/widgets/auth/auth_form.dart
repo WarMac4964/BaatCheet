@@ -4,17 +4,9 @@ import 'package:baatchet/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
-  final void Function(
-    String email,
-    String password,
-    String username,
-    bool isLogin,
-    BuildContext ctx,
-    File image,
-  ) submitFn;
   final bool isLoading;
 
-  AuthForm(this.submitFn, this.isLoading);
+  AuthForm(this.isLoading);
   @override
   _AuthFormState createState() => _AuthFormState();
 }
@@ -35,19 +27,9 @@ class _AuthFormState extends State<AuthForm> {
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
 
-    if (_userImageFile == null && !_isLogin) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please pick an Image.'),
-          backgroundColor: Theme.of(context).errorColor,
-        ),
-      );
-      return;
-    }
     if (isValid) {
       _formKey.currentState.save();
-      widget.submitFn(_userEmail.trim(), _password.trim(), _userName.trim(),
-          _isLogin, context, _userImageFile);
+      //widget.submitFn(_userEmail.trim(), _password.trim(), _userName.trim(), _isLogin, context);
     }
   }
 
@@ -137,8 +119,7 @@ class _AuthFormState extends State<AuthForm> {
                         _isLogin = !_isLogin;
                       });
                     },
-                    child: Text(
-                        _isLogin ? 'Craete a new Account' : 'Login instead'),
+                    child: Text(_isLogin ? 'Craete a new Account' : 'Login instead'),
                   )
                 ],
               ),

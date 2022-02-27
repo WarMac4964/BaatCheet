@@ -32,18 +32,24 @@ class MyApp extends StatelessWidget {
             title: 'BaatChet',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primarySwatch: Colors.pink,
-              backgroundColor: Colors.pink,
+              primarySwatch: Colors.amber,
+              backgroundColor: Colors.amber,
               accentColor: Colors.deepPurple,
               accentColorBrightness: Brightness.dark,
               buttonTheme: ButtonTheme.of(context).copyWith(
-                buttonColor: Colors.pink,
+                buttonColor: Colors.amber,
                 textTheme: ButtonTextTheme.primary,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
               ),
               textTheme: ThemeData.light().textTheme.copyWith(
+                    button: TextStyle(
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.w500,
+                      color: Colors.blue,
+                      fontSize: 15,
+                    ),
                     headline1: TextStyle(
                       fontFamily: "Poppins",
                       fontWeight: FontWeight.bold,
