@@ -1,11 +1,12 @@
-import 'package:baatchet/screens/screens.dart';
+import 'package:baatchet/auth/screens/login_screen.dart';
+import 'package:baatchet/constant.dart';
+import 'package:baatchet/home/screens/entry_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(MyApp());
 }
 
@@ -31,64 +32,20 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'BaatChet',
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primarySwatch: Colors.amber,
-              backgroundColor: Colors.amber,
-              accentColor: Colors.deepPurple,
-              accentColorBrightness: Brightness.dark,
-              buttonTheme: ButtonTheme.of(context).copyWith(
-                buttonColor: Colors.amber,
-                textTheme: ButtonTextTheme.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-              ),
-              textTheme: ThemeData.light().textTheme.copyWith(
-                    button: TextStyle(
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w500,
-                      color: Colors.blue,
-                      fontSize: 15,
-                    ),
-                    headline1: TextStyle(
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 35,
-                      color: Colors.white,
-                    ),
-                    subtitle1: TextStyle(
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.normal,
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                    bodyText2: TextStyle(
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black87,
-                      fontSize: 15,
-                    ),
-                    bodyText1: TextStyle(
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                  ),
-            ),
+            theme: darkTheme,
             home: StreamBuilder(
               stream: FirebaseAuth.instance.authStateChanges(),
               builder: (context, userSnapshot) {
                 if (userSnapshot.hasData) {
-                  return ChatScreen();
+                  return EntryPage();
                 } else {
-                  return NewAuthScreen();
+                  return LoginScreen();
                 }
               },
             ),
           );
         }
-        return CircularProgressIndicator();
+        return MaterialApp(home: Scaffold(body: Container(child: Center(child: CircularProgressIndicator.adaptive()))));
       },
     );
   }
