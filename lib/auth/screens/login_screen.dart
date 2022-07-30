@@ -6,7 +6,6 @@ import 'package:baatchet/auth/widgets/auth_helper.dart';
 import 'package:baatchet/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutterfire_ui/auth.dart';
 
 class LoginScreen extends StatefulWidget {
