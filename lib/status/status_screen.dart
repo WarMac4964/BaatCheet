@@ -51,6 +51,7 @@ class _StatusScreenState extends State<StatusScreen> {
           const SizedBox(height: 22),
           getAppBar(),
           GridView.builder(
+              itemCount: 10,
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

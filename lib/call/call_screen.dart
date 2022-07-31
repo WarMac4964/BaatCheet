@@ -5,8 +5,16 @@ class CallScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return Scaffold(
-      body: Container(),
+      backgroundColor: theme.backgroundColor,
+      body: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[],
+          ),
+        ),
+      ),
     );
   }
 }

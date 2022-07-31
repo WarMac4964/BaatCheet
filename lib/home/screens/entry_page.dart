@@ -40,24 +40,29 @@ class _EntryPageState extends State<EntryPage> {
   Widget build(BuildContext context) {
     theme = Theme.of(context);
     _controller = PersistentTabController(initialIndex: 0);
-    return PersistentTabView(
-      context,
-      controller: _controller,
-      screens: _screens,
-      items: _navBarsItems(context),
-      padding: NavBarPadding.all(10),
-      navBarStyle: NavBarStyle.style6,
-      decoration:
-          NavBarDecoration(boxShadow: [BoxShadow(color: theme.shadowColor, offset: Offset(0, -4), blurRadius: 25)]),
-      confineInSafeArea: Platform.isAndroid,
-      stateManagement: true,
-      handleAndroidBackButtonPress: true,
-      resizeToAvoidBottomInset: true,
-      hideNavigationBarWhenKeyboardShows: true,
-      popAllScreensOnTapOfSelectedTab: true,
-      itemAnimationProperties: ItemAnimationProperties(
-        duration: Duration(milliseconds: 200),
-        curve: Curves.easeIn,
+    return Scaffold(
+      body: PersistentTabView(
+        context,
+        controller: _controller,
+        screens: _screens,
+        backgroundColor: theme.scaffoldBackgroundColor,
+        items: _navBarsItems(context),
+        padding: NavBarPadding.all(10),
+        navBarStyle: NavBarStyle.style6,
+        resizeToAvoidBottomInset: true,
+        popAllScreensOnTapOfSelectedTab: true,
+        decoration: NavBarDecoration(
+            borderRadius: BorderRadius.circular(10),
+            colorBehindNavBar: theme.backgroundColor,
+            boxShadow: [BoxShadow(color: theme.shadowColor, offset: Offset(0, -4), blurRadius: 25)]),
+        confineInSafeArea: Platform.isAndroid,
+        margin: EdgeInsets.only(bottom: 20, left: 15, right: 15),
+        handleAndroidBackButtonPress: true,
+        hideNavigationBarWhenKeyboardShows: true,
+        itemAnimationProperties: ItemAnimationProperties(
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeIn,
+        ),
       ),
     );
   }
@@ -65,20 +70,20 @@ class _EntryPageState extends State<EntryPage> {
   List<PersistentBottomNavBarItem> _navBarsItems(BuildContext context) {
     List<PersistentBottomNavBarItem> items = [
       PersistentBottomNavBarItem(
-        icon: SvgPicture.asset('assets/Img/chat_blue.svg'),
-        inactiveIcon: SvgPicture.asset('assets/Img/chat_black.svg'),
+        icon: SvgPicture.asset('assets/Img/chat_blue.svg', color: theme.primaryColor),
+        inactiveIcon: SvgPicture.asset('assets/Img/chat_black.svg', color: theme.dividerColor),
       ),
       PersistentBottomNavBarItem(
-        icon: SvgPicture.asset('assets/Img/call.svg', color: theme.secondaryHeaderColor),
-        inactiveIcon: SvgPicture.asset('assets/Img/call.svg'),
+        icon: SvgPicture.asset('assets/Img/call.svg', color: theme.primaryColor),
+        inactiveIcon: SvgPicture.asset('assets/Img/call.svg', color: theme.dividerColor),
       ),
       PersistentBottomNavBarItem(
-        icon: SvgPicture.asset('assets/Img/stories.svg', color: theme.secondaryHeaderColor),
-        inactiveIcon: SvgPicture.asset('assets/Img/stories.svg'),
+        icon: SvgPicture.asset('assets/Img/stories.svg', color: theme.primaryColor),
+        inactiveIcon: SvgPicture.asset('assets/Img/stories.svg', color: theme.dividerColor),
       ),
       PersistentBottomNavBarItem(
-        icon: SvgPicture.asset('assets/Img/camera.svg', color: theme.secondaryHeaderColor),
-        inactiveIcon: SvgPicture.asset('assets/Img/camera.svg'),
+        icon: SvgPicture.asset('assets/Img/camera.svg', color: theme.primaryColor),
+        inactiveIcon: SvgPicture.asset('assets/Img/camera.svg', color: theme.dividerColor),
       ),
     ];
     return items;

@@ -5,6 +5,10 @@ class CameraScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    ThemeData theme = Theme.of(context);
+    return Scaffold(
+      backgroundColor: theme.backgroundColor,
+      body: Container(),
+    );
   }
 }

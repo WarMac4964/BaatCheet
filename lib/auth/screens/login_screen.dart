@@ -6,7 +6,6 @@ import 'package:baatchet/auth/widgets/auth_helper.dart';
 import 'package:baatchet/constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -20,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passEditingController = TextEditingController();
   ValueNotifier<bool> isEmailEmpty = ValueNotifier(false);
   ValueNotifier<bool> isPassEmpty = ValueNotifier(false);
+  ValueNotifier<bool> isLoading = ValueNotifier(false);
   bool platformIosCheck = Platform.isIOS;
 
   @override
@@ -44,7 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
       showStatusSnackBar(context, 'Please provide email/password', true);
       return;
     }
+    isLoading.value = true;
     tryLogin(context);
+    isLoading.value = false;
   }
 
   void tryLogin(BuildContext context) async {
@@ -65,12 +67,12 @@ class _LoginScreenState extends State<LoginScreen> {
         width: screenSize.width,
         height: screenSize.height,
         padding: EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(gradient: blueGradient),
+        decoration: BoxDecoration(color: backgroundBlack),
         child: SingleChildScrollView(
             child: Column(
           children: <Widget>[
-            const SizedBox(height: 50),
-            Image.asset('assets/Img/logo.png', height: 100),
+            const SizedBox(height: 30),
+            Image.asset('assets/Img/logo.png', height: 150),
             Text('BaatCheet', style: theme.textTheme.headline1),
             Text('Let\'s talk shall we', style: theme.textTheme.bodyText2),
             const SizedBox(height: 50),
@@ -83,59 +85,26 @@ class _LoginScreenState extends State<LoginScreen> {
               builder: (context, __, ___) => getTextContainer(theme, passEditingController, true, 'Password'),
             ),
             const SizedBox(height: 20),
-            GestureDetector(
-              onTap: () => checkErrors(context),
-              child: Container(
-                alignment: Alignment.center,
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(color: theme.backgroundColor, borderRadius: BorderRadius.circular(12)),
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                child: Text('Continue', style: theme.textTheme.headline6),
-              ),
-            ),
+            ValueListenableBuilder(
+                valueListenable: isLoading,
+                builder: (context, __, ___) {
+                  if (isLoading.value) {
+                    return Container(height: 20, child: CircularProgressIndicator.adaptive());
+                  }
+                  return GestureDetector(
+                    onTap: () => checkErrors(context),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: double.infinity,
+                      height: 60,
+                      decoration: BoxDecoration(color: theme.backgroundColor, borderRadius: BorderRadius.circular(12)),
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      child: Text('Continue', style: theme.textTheme.headline6?.copyWith(color: backgroundBlack)),
+                    ),
+                  );
+                }),
             const SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                platformIosCheck
-                    ? Container(
-                        height: 60,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(color: black, borderRadius: BorderRadius.circular(8)),
-                        width: (screenSize.width - 60) / 3,
-                        child: AppleSignInIconButton(
-                          auth: AuthService().firebaseAuth,
-                          action: AuthAction.signIn,
-                        ),
-                      )
-                    : const SizedBox(),
-                SizedBox(width: platformIosCheck ? 10 : 0),
-                Container(
-                  height: 60,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(8)),
-                  width: platformIosCheck ? (screenSize.width - 60) / 3 : (screenSize.width - 50) / 2,
-                  child: GoogleSignInIconButton(
-                    auth: AuthService().firebaseAuth,
-                    action: AuthAction.signIn,
-                    clientId: '619339793057-p8f010ujeul21npi3d0dt08jjnp9u3l2.apps.googleusercontent.com',
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Container(
-                  height: 60,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(color: facebookBlue, borderRadius: BorderRadius.circular(8)),
-                  width: platformIosCheck ? (screenSize.width - 60) / 3 : (screenSize.width - 50) / 2,
-                  child: FacebookSignInIconButton(
-                    clientId: '279767870991286',
-                    auth: AuthService().firebaseAuth,
-                    action: AuthAction.signIn,
-                  ),
-                ),
-              ],
-            ),
+            getSocialBar(screenSize),
             const SizedBox(height: 20),
             GestureDetector(
               onTap: () => Navigator.of(context).push(CupertinoPageRoute(builder: (context) => SignUpScreen())),
@@ -150,7 +119,55 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 10),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => Dialog(
+                        backgroundColor: backgroundBlack,
+                        insetPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        child: Container(
+                          height: 220,
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          child: Column(
+                            children: <Widget>[
+                              Image.asset('assets/Img/logo.png', height: 70),
+                              const SizedBox(height: 20),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(5)),
+                                child: TextField(
+                                    controller: emailEditingController,
+                                    decoration: InputDecoration(border: InputBorder.none, hintText: 'Email')),
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).maybePop();
+                                      },
+                                      child: Text(
+                                        'Cancel',
+                                        style: theme.textTheme.subtitle1,
+                                      )),
+                                  const SizedBox(width: 10),
+                                  TextButton(
+                                      onPressed: () async {
+                                        var response = await AuthService().resetPassword(emailEditingController.text);
+                                        showStatusSnackBar(context, response['message'],
+                                            response['status'] == CallStatus.failed ? true : false);
+                                      },
+                                      child: Text(
+                                        'Reset',
+                                        style: theme.textTheme.subtitle1,
+                                      ))
+                                ],
+                              )
+                            ],
+                          ),
+                        )));
+              },
               child:
                   Align(alignment: Alignment.topLeft, child: Text('Forgot password?', style: theme.textTheme.button)),
             ),
@@ -176,15 +193,16 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         child: TextField(
           controller: textEditingController,
+          style: theme.textTheme.headline6?.copyWith(color: backgroundBlack),
           decoration: InputDecoration(
               hintText: title,
               hintStyle: isObsure
                   ? isPassEmpty.value
                       ? errorStyle
-                      : theme.textTheme.headline6
+                      : theme.textTheme.headline6?.copyWith(color: backgroundBlack)
                   : isEmailEmpty.value
                       ? errorStyle
-                      : theme.textTheme.headline6,
+                      : theme.textTheme.headline6?.copyWith(color: backgroundBlack),
               border: InputBorder.none),
           obscureText: isObsure,
         ));

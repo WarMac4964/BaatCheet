@@ -1,3 +1,4 @@
+import 'package:baatchet/auth/auth_service.dart';
 import 'package:baatchet/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late ThemeData theme;
   late Size screenSize;
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
@@ -31,12 +33,17 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(children: <Widget>[
         Expanded(
             flex: 1,
-            child: Container(
-                alignment: Alignment.centerLeft,
-                height: 40,
-                child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/Img/profilePhoto/pexels-linkedin-sales-navigator-2182970.png'),
-                ))),
+            child: GestureDetector(
+              onTap: () {
+                _scaffoldKey.currentState?.openDrawer();
+              },
+              child: Container(
+                  alignment: Alignment.centerLeft,
+                  height: 40,
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage('assets/Img/profilePhoto/pexels-linkedin-sales-navigator-2182970.png'),
+                  )),
+            )),
         Expanded(
             flex: 1,
             child: Container(
@@ -62,6 +69,52 @@ class _HomeScreenState extends State<HomeScreen> {
     theme = Theme.of(context);
     screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: Container(
+        width: screenSize.width * 0.7,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        margin: EdgeInsets.symmetric(vertical: 40),
+        decoration: BoxDecoration(
+            color: theme.backgroundColor,
+            borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomRight: Radius.circular(15))),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const SizedBox(height: 25),
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                height: 70,
+                width: 70,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage('assets/Img/profilePhoto/pexels-linkedin-sales-navigator-2182970.png'))),
+              ),
+            ),
+            const SizedBox(height: 25),
+            Container(
+              height: 30,
+              alignment: Alignment.center,
+              width: double.infinity,
+              decoration: BoxDecoration(color: theme.scaffoldBackgroundColor),
+              child: Column(
+                children: <Widget>[Text('Anurag Tyagi', style: theme.textTheme.bodyText2)],
+              ),
+            ),
+            const SizedBox(height: 25),
+            TextButton(
+                onPressed: () {
+                  AuthService().signOut();
+                },
+                child: Text(
+                  'Sign Out',
+                  style: theme.textTheme.bodyText2,
+                ))
+          ],
+        ),
+      ),
       backgroundColor: theme.backgroundColor,
       body: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -82,7 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: double.infinity,
                         height: 80,
                         padding: EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(color: theme.primaryColor, borderRadius: BorderRadius.circular(10)),
+                        decoration: BoxDecoration(
+                            color: theme.scaffoldBackgroundColor, borderRadius: BorderRadius.circular(10)),
                         child: ListView.builder(
                             itemCount: 5,
                             scrollDirection: Axis.horizontal,
@@ -92,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 60,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      border: Border.all(width: 2.5, color: theme.secondaryHeaderColor)),
+                                      border: Border.all(width: 2.5, color: theme.primaryColor)),
                                   child: CircleAvatar(
                                     backgroundImage:
                                         AssetImage('assets/Img/profilePhoto/pexels-andrea-piacquadio-762020.png'),
@@ -101,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       const SizedBox(height: 20),
                       ListView.builder(
-                        itemCount: 20,
+                        itemCount: 10,
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, int) => Container(
@@ -156,8 +210,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   height: 25,
                                   width: 25,
                                   alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50), color: theme.secondaryHeaderColor),
+                                  decoration:
+                                      BoxDecoration(borderRadius: BorderRadius.circular(50), color: theme.primaryColor),
                                   child: Text('1', style: theme.textTheme.headline6),
                                 )
                               ]),
